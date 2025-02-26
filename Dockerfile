@@ -34,8 +34,8 @@ COPY --from=builder /app/summarizer-app .
 # Copy the database directory
 COPY --from=builder /app/db ./db
 
-# Create directory for environment variables
-RUN mkdir -p /app/config
+# Copy the .env file
+COPY .env ./
 
 # Expose port
 EXPOSE 8080
