@@ -31,8 +31,8 @@ WORKDIR /app
 # Copy the binary from builder
 COPY --from=builder /app/summarizer-app .
 
-# Copy the database directory
-COPY --from=builder /app/db ./db
+# Create db directory (but don't copy files)
+RUN mkdir -p /app/db
 
 # Expose port
 EXPOSE 8080

@@ -1,0 +1,20 @@
+FROM golang:1.23-alpine
+
+WORKDIR /app
+
+# Copy migrations
+COPY migrations ./migrations
+
+# Copy database directory (but not necessarily the file)
+COPY db ./db
+
+# Install migrate tool and SQLite
+RUN apk add --no-cache sqlite && \
+    go install -tags 'sqlite3' github.com/golang-migrate/migrate/v4/cmd/migrate@latest
+
+# Create a script to ensure the database exists before migrations
+COPY ensure-db.sh .
+RUN chmod +x ensure-db.sh
+
+# Run the script that ensures DB exists and then runs migrations
+CMD ["./ensure-db.sh"]
