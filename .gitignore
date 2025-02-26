@@ -44,3 +44,6 @@ temp/
 
 # Generated files
 generated/
+
+# Ignore SQLite database files
+*.db
