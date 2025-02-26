@@ -2,12 +2,12 @@ FROM golang:1.23-alpine
 
 WORKDIR /app
 
-# Copy database directory
+# Copy database directory including migrations subfolder
 COPY db ./db
 
-# Install migrate tool and SQLite
-RUN apk add --no-cache sqlite && \
-    go install -tags 'sqlite3' github.com/golang-migrate/migrate/v4/cmd/migrate@latest
+# Install migrate tool with CGO enabled and SQLite dependencies
+RUN apk add --no-cache sqlite sqlite-dev gcc musl-dev && \
+    CGO_ENABLED=1 go install -tags 'sqlite3' github.com/golang-migrate/migrate/v4/cmd/migrate@latest
 
 # Create a script to ensure the database exists before migrations
 COPY ensure-db.sh .
