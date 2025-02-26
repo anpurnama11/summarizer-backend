@@ -2,10 +2,7 @@ FROM golang:1.23-alpine
 
 WORKDIR /app
 
-# Copy migrations
-COPY migrations ./migrations
-
-# Copy database directory (but not necessarily the file)
+# Copy database directory
 COPY db ./db
 
 # Install migrate tool and SQLite
