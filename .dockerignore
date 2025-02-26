@@ -1,0 +1,28 @@
+# Git
+.git
+.gitignore
+
+# Docker
+Dockerfile
+.dockerignore
+
+# Environment variables
+.env
+
+# Database files (if you want to start with a fresh database in the container)
+# db/summarizer.db
+
+# Binaries and build artifacts
+**/bin/
+**/obj/
+
+# IDE files
+.idea/
+.vscode/
+
+# Logs
+*.log
+
+# Temporary files
+**/tmp/
+**/temp/
