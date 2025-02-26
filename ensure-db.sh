@@ -13,6 +13,6 @@ fi
 
 # Run migrations
 echo "Running migrations..."
-migrate -path db/migrations -database "sqlite3://db/database.sqlite" up
+migrate -path db/migrations -database "sqlite3://db/database.sqlite?query=x-no-tx-wrap" up
 
 echo "Migrations completed successfully"
