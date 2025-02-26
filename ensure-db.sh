@@ -13,6 +13,6 @@ fi
 
 # Run migrations
 echo "Running migrations..."
-migrate -database "sqlite3://db/database.sqlite" -path migrations up
+migrate -database "sqlite3://db/database.sqlite" -path db/migrations up
 
 echo "Migrations completed successfully"
