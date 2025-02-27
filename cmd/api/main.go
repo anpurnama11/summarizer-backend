@@ -15,7 +15,7 @@ import (
 
 func main() {
 	// Initialize database connection
-	db, err := database.NewDB("./db/summarizer.db")
+	db, err := database.NewDB("./db/database.sqlite")
 	if err != nil {
 		log.Fatalf("Failed to connect to database: %v", err)
 	}
