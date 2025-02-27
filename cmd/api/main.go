@@ -36,6 +36,12 @@ func main() {
 		log.Fatalf("Failed to create Gemini client: %v", err)
 	}
 
+	ginMode := os.Getenv("GIN_MODE")
+	if ginMode == "" {
+		ginMode = gin.DebugMode
+	}
+	gin.SetMode(ginMode)
+
 	// Setup router
 	router := api.SetupRouter(historyRepo, styleRepo, extractor, geminiClient)
 
@@ -44,12 +50,6 @@ func main() {
 	if port == "" {
 		port = "8080"
 	}
-
-	ginMode := os.Getenv("GIN_MODE")
-	if ginMode == "" {
-		ginMode = gin.DebugMode
-	}
-	gin.SetMode(ginMode)
 
 	// Start server
 	log.Printf("Server starting on port %s", port)
