@@ -9,6 +9,7 @@ import (
 	"log"
 	"os"
 
+	"github.com/gin-gonic/gin"
 	_ "github.com/mattn/go-sqlite3"
 )
 
@@ -43,6 +44,12 @@ func main() {
 	if port == "" {
 		port = "8080"
 	}
+
+	ginMode := os.Getenv("GIN_MODE")
+	if ginMode == "" {
+		ginMode = gin.DebugMode
+	}
+	gin.SetMode(ginMode)
 
 	// Start server
 	log.Printf("Server starting on port %s", port)
