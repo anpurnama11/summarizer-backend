@@ -8,7 +8,7 @@ import (
 )
 
 type styleRepository struct {
-	db *database.DB
+	db    *database.DB
 	cache struct {
 		byID   map[int]*Style
 		byName map[string]*Style
@@ -37,11 +37,11 @@ func (r *styleRepository) Create(ctx context.Context, style *Style) error {
 
 	query := `
 		INSERT INTO summarization_styles (
-			name, description, prompt_template, created_at
-		) VALUES (?, ?, ?, ?)
+			name, description, prompt_template
+		) VALUES (?, ?, ?)
 	`
 	result, err := r.db.ExecContext(ctx, query,
-		style.Name, style.Description, style.PromptTemplate, style.CreatedAt,
+		style.Name, style.Description, style.PromptTemplate,
 	)
 	if err != nil {
 		return err

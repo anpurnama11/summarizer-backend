@@ -40,11 +40,12 @@
   - [x] Error handling middleware
   - [x] Request validation
 
-- [ ] Implement API endpoints
-  - POST /api/summarize
-  - GET /api/history
-  - GET /api/history/{id}
-  - GET /api/search
+- [x] Implement API endpoints
+  - [x] POST /api/summarize
+  - [x] GET /api/history
+  - [x] GET /api/history/{id}
+  - [x] GET /api/search
+  - [ ] DELETE /api/history/{id}
 
 ## Testing
 - [ ] Write unit tests

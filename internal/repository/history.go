@@ -99,13 +99,12 @@ func (r *historyRepository) Create(ctx context.Context, history *History) error 
 	query := `
 		INSERT INTO history (
 			url, title, content, summary, style_id,
-			language, created_at
-		) VALUES (?, ?, ?, ?, ?, ?, ?)
+			language
+		) VALUES (?, ?, ?, ?, ?, ?)
 	`
 	result, err := r.db.ExecContext(ctx, query,
 		history.URL, history.Title, history.Content,
 		history.Summary, history.StyleID, history.Language,
-		history.CreatedAt,
 	)
 	if err != nil {
 		return err
