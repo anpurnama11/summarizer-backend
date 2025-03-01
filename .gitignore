@@ -47,3 +47,4 @@ generated/
 
 # Ignore SQLite database files
 *.db
+*.Sqlite*
