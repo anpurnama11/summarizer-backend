@@ -17,7 +17,7 @@ docker build -t $IMAGE_NAME .
 if [ "$(docker ps -aq -f name=$CONTAINER_NAME)" ]; then
     echo "Stopping existing container: $CONTAINER_NAME"
     docker stop $CONTAINER_NAME
-    
+
     echo "Removing existing container: $CONTAINER_NAME"
     docker rm $CONTAINER_NAME
 fi
@@ -26,6 +26,7 @@ fi
 echo "Starting new container: $CONTAINER_NAME"
 docker run \
     --name $CONTAINER_NAME \
+    --restart unless-stopped \
     -v $ENV_FILE_PATH:/app/.env \
     -v $DB_DIR_PATH:/app/db \
     -d \
