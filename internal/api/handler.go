@@ -2,8 +2,8 @@ package api
 
 import (
 	"anpurnama/summarizer-backend/internal/repository"
+	"anpurnama/summarizer-backend/internal/service"
 	"anpurnama/summarizer-backend/internal/service/extractor"
-	"anpurnama/summarizer-backend/internal/service/gemini"
 	"net/http"
 	"strconv"
 	"strings"
@@ -13,23 +13,23 @@ import (
 )
 
 type Handler struct {
-	historyRepo  repository.HistoryRepository
-	styleRepo    repository.StyleRepository
-	extractor    extractor.ContentExtractor
-	geminiClient *gemini.Client
+	historyRepo repository.HistoryRepository
+	styleRepo   repository.StyleRepository
+	extractor   extractor.ContentExtractor
+	summarizer  service.Summarizer
 }
 
 func NewHandler(
 	historyRepo repository.HistoryRepository,
 	styleRepo repository.StyleRepository,
 	extractor extractor.ContentExtractor,
-	geminiClient *gemini.Client,
+	summarizer service.Summarizer,
 ) *Handler {
 	return &Handler{
-		historyRepo:  historyRepo,
-		styleRepo:    styleRepo,
-		extractor:    extractor,
-		geminiClient: geminiClient,
+		historyRepo: historyRepo,
+		styleRepo:   styleRepo,
+		extractor:   extractor,
+		summarizer:  summarizer,
 	}
 }
 
@@ -66,7 +66,7 @@ func (h *Handler) HandleSummarize(c *gin.Context) {
 		return
 	}
 
-	summary, err := h.geminiClient.Summarize(c.Request.Context(), extracted.Content, styleName)
+	summary, err := h.summarizer.Summarize(c.Request.Context(), extracted.Content, styleName)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, ErrorResponse{Error: "Failed to generate summary: " + err.Error()})
 		return

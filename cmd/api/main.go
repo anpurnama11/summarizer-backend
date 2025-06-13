@@ -5,7 +5,7 @@ import (
 	"anpurnama/summarizer-backend/internal/database"
 	"anpurnama/summarizer-backend/internal/repository"
 	"anpurnama/summarizer-backend/internal/service/extractor"
-	"anpurnama/summarizer-backend/internal/service/gemini"
+	"anpurnama/summarizer-backend/internal/service/openrouter"
 	"log"
 	"os"
 
@@ -31,9 +31,9 @@ func main() {
 		log.Fatalf("Failed to create content extractor: %v", err)
 	}
 
-	geminiClient, err := gemini.NewClient(styleRepo)
+	openrouterClient, err := openrouter.NewClient(styleRepo)
 	if err != nil {
-		log.Fatalf("Failed to create Gemini client: %v", err)
+		log.Fatalf("Failed to create OpenRouter client: %v", err)
 	}
 
 	ginMode := os.Getenv("GIN_MODE")
@@ -43,7 +43,7 @@ func main() {
 	gin.SetMode(ginMode)
 
 	// Setup router
-	router := api.SetupRouter(historyRepo, styleRepo, extractor, geminiClient)
+	router := api.SetupRouter(historyRepo, styleRepo, extractor, openrouterClient)
 
 	// Get port from environment variable or use default
 	port := os.Getenv("PORT")
