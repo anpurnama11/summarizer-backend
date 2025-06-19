@@ -20,6 +20,7 @@ type Client struct {
 	httpClient      *http.Client
 	apiKey          string
 	baseURL         string
+	model           string
 	styleRepository repository.StyleRepository
 }
 
@@ -57,12 +58,18 @@ func NewClient(styleRepo repository.StyleRepository) (*Client, error) {
 		return nil, fmt.Errorf("OPENROUTER_API_KEY environment variable is required")
 	}
 
+	model := os.Getenv("OPENROUTER_MODEL")
+	if model == "" {
+		model = "openai/gpt-4.1-nano" // default fallback
+	}
+
 	return &Client{
 		httpClient: &http.Client{
 			Timeout: 30 * time.Second,
 		},
 		apiKey:          apiKey,
 		baseURL:         "https://openrouter.ai/api/v1",
+		model:           model,
 		styleRepository: styleRepo,
 	}, nil
 }
@@ -81,7 +88,7 @@ func (c *Client) Summarize(ctx context.Context, content string, styleName string
 	prompt := fmt.Sprintf("%s\n\n%s", style.PromptTemplate, content)
 
 	request := OpenRouterRequest{
-		Model: "openai/gpt-4.1-nano",
+		Model: c.model,
 		Messages: []Message{
 			{
 				Role:    "user",
